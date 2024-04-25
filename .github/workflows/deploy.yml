@@ -11,17 +11,19 @@ jobs:
   test:
     environment: testing
     runs-on: ubuntu-latest
-    container:
-      image: node:16
+    #container: #ha kiveszem a containert, akkor kell az eredeti mongodb hozzáférés
+    #  image: node:16
     env:
       MONGODB_CONNECTION_PROTOCOL: mongodb #ez is változik
-      MONGODB_CLUSTER_ADDRESS: mongodb #ez megegyezik a service nevével -> mongodb
+      MONGODB_CLUSTER_ADDRESS: 127.0.0.1:27017 #a 27017 port kell a mongodbnek
       MONGODB_USERNAME: root #kell hogy itt is ugyanaz legyen a username és password mint a service image-nek adatbázisában
       MONGODB_PASSWORD: example
       PORT: 8080
     services:
       mongodb:
         image: mongo #ez a predefined mongodb image neve a dockerhubon
+        ports:
+          - 27017:27017
         env: #2 env variable-t muszáj definiálni
           MONGO_INITDB_ROOT_USERNAME: root
           MONGO_INITDB_ROOT_PASSWORD: example
