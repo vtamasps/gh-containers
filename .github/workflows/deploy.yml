@@ -14,11 +14,17 @@ jobs:
     container:
       image: node:16
     env:
-      MONGODB_CONNECTION_PROTOCOL: mongodb+srv
-      MONGODB_CLUSTER_ADDRESS: cluster0.bsc0phz.mongodb.net
-      MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
-      MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+      MONGODB_CONNECTION_PROTOCOL: mongodb #ez is változik
+      MONGODB_CLUSTER_ADDRESS: mongodb #ez megegyezik a service nevével -> mongodb
+      MONGODB_USERNAME: root #kell hogy itt is ugyanaz legyen a username és password mint a service image-nek adatbázisában
+      MONGODB_PASSWORD: example
       PORT: 8080
+    services:
+      mongodb:
+        image: mongo #ez a predefined mongodb image neve a dockerhubon
+        env: #2 env variable-t muszáj definiálni
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: example
     steps:
       - name: Get Code
         uses: actions/checkout@v3
